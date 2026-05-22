@@ -340,8 +340,13 @@ with tab2:
             ['Glucose', 'BloodPressure', 'BMI', 'Insulin', 'Age']
         )
 
+        # Extract features from the 'data' column dictionary
+        feature_data = history_df['data'].apply(lambda x: x.get(feature) if isinstance(x, dict) else None)
+        analysis_df = history_df.copy()
+        analysis_df[feature] = feature_data
+        
         fig = px.scatter(
-            history_df,
+            analysis_df,
             x=feature,
             y='probability',
             color='prediction',
