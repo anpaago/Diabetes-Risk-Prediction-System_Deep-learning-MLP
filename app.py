@@ -318,12 +318,18 @@ with tab2:
 
         # Risk distribution
         st.markdown("### Risk Distribution")
-        risk_counts = history_df['prediction'].value_counts()
+        risk_counts = history_df['prediction'].value_counts().sort_index()
+        # Create proper labels based on what exists in the data
+        labels = {0: 'No Diabetes', 1: 'Diabetes'}
+        names = [labels[idx] for idx in risk_counts.index]
+        colors = {0: '#4caf50', 1: '#f44336'}
+        colors_list = [colors[idx] for idx in risk_counts.index]
+        
         fig = px.pie(
             values=risk_counts.values,
-            names=['No Diabetes', 'Diabetes'],
+            names=names,
             title="Distribution of Predictions",
-            color_discrete_map={0: '#4caf50', 1: '#f44336'}
+            color_discrete_sequence=colors_list
         )
         st.plotly_chart(fig, use_container_width=True)
 
